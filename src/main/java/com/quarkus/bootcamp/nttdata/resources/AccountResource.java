@@ -1,5 +1,7 @@
-package com.quarkus.bootcamp.nttdata;
+package com.quarkus.bootcamp.nttdata.resources;
 
+import com.quarkus.bootcamp.nttdata.entity.accountWallet.AccountWallet;
+import com.quarkus.bootcamp.nttdata.services.AccountService;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -20,7 +22,7 @@ public class AccountResource {
 	
 	
 	@POST
-	public Uni<Response> add(Account account){
+	public Uni<Response> add(AccountWallet account){
 		return accountService.save(account)
 				.onItem().transform(ac->{
 					return Response.ok(ac).status(200).build();
