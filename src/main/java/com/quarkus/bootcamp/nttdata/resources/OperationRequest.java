@@ -18,7 +18,7 @@ public class OperationRequest {
 	// monto a pagar, tranferir
 	private double amount;
 	//  codigo de promocion
-	private String pageCode;
+	private String pageCode = "default";
 	private String  description;
 	private LocalDate fecha;
 
