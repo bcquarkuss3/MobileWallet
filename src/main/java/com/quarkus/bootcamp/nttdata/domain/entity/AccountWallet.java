@@ -37,14 +37,6 @@ public class AccountWallet {
 	 * id del cliente
 	 */
 	 private  String customerId;
-	/**
-	 * "S" si es persona natural | "N" si no lo es
- 	 */
-	 private  String personaNatural;
-	/**
-	 * "S" -> si es persona jurica | "N" si no lo es
-	 */
-	private String personaJuridica;
 
 	//*******************************
 	//*** CAMPOS DE AUDITORIA

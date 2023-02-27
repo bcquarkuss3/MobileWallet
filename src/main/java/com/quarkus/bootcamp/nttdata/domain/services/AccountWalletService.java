@@ -28,8 +28,6 @@ public class AccountWalletService {
 	@Inject
 	AccountWalletRepository accountRepository;
 
-	//@RestClient
-	//IBodyCorporateApi clientBodyCorporateApi;
 
 	@RestClient
 	INaturalPersonApi clientNaturalPerson;
@@ -46,36 +44,6 @@ public class AccountWalletService {
 			}
 			return  saveAccountWallet(request);
 		});
-
-	}
-
-	public Uni<AccountWallet> save2(AccountWalletRequest request) {
-
-
-		Uni<NaturalPersonD> naturalPerson = clientNaturalPerson.getById(Long.parseLong(request.getCustomerId()));
-
-		//Uni<BodyCorporateD> personJuridic = clientBodyCorporateApi.getById(Long.valueOf(request.getCustomerId()));
-
-	return 	Uni.combine()
-				.all()
-			//	.unis(naturalPerson, personJuridic)
-			.unis(naturalPerson)
-				.combinedWith(lisp -> {
-
-					NaturalPersonD natural =  (NaturalPersonD) lisp.get(0);
-					//BodyCorporateD juridico = (BodyCorporateD)lisp.get(1);
-
-				//if(Objects.isNull(natural) || Objects.isNull(juridico) ){
-					if(Objects.isNull(natural)  ){
-
-						throw new NotFoundException("Persona natural o Jurídica no encontrada : " );
-					}
-
-
-					//return 	 saveAccountWallet(request);
-					return new AccountWallet();
-				});
-
 
 	}
 
@@ -175,6 +143,25 @@ public class AccountWalletService {
 	}
 
 
+	public Uni<AccountWallet> login(AccountWallet accountWallet) {
+		Uni<AccountWallet> accountWalletUni =   findCardsBySerial(accountWallet.getSerial());
+		return accountWalletUni.onItem().transformToUni(aw->{
+			if(aw == null || aw.getId()==null) {
+				throw new NotFoundException("cards not found");
+			} else {
+				return accountRepository.findById(aw.getId());
 
+			}
+		});
+	}
+
+
+	/**
+	 * lista todo los registros.
+	 * @return
+	 */
+	public  Multi<AccountWallet> listar(){
+		return accountRepository.streamAll();
+	}
 
 }
