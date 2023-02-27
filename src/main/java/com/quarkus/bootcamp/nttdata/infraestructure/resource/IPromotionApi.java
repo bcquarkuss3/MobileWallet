@@ -1,5 +1,6 @@
-package com.quarkus.bootcamp.nttdata.resources;
+package com.quarkus.bootcamp.nttdata.infraestructure.resource;
 
+import com.quarkus.bootcamp.nttdata.infraestructure.entity.promotion.Promotion;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import io.smallrye.mutiny.Uni;

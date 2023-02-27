@@ -1,6 +1,6 @@
-package com.quarkus.bootcamp.nttdata.repository;
+package com.quarkus.bootcamp.nttdata.domain.repository;
 
-import com.quarkus.bootcamp.nttdata.entity.accountWallet.Operation;
+import com.quarkus.bootcamp.nttdata.domain.entity.Operation;
 
 import io.quarkus.mongodb.panache.reactive.ReactivePanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;

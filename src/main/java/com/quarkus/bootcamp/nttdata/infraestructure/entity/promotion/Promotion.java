@@ -1,4 +1,4 @@
-package com.quarkus.bootcamp.nttdata.resources;
+package com.quarkus.bootcamp.nttdata.infraestructure.entity.promotion;
 
 import lombok.Data;
 

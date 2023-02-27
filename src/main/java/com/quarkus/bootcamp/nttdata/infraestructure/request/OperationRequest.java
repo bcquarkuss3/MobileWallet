@@ -1,6 +1,6 @@
-package com.quarkus.bootcamp.nttdata.resources;
+package com.quarkus.bootcamp.nttdata.infraestructure.request;
 
-import com.quarkus.bootcamp.nttdata.entity.accountWallet.AccountWallet;
+import com.quarkus.bootcamp.nttdata.domain.entity.AccountWallet;
 import org.bson.types.ObjectId;
 
 

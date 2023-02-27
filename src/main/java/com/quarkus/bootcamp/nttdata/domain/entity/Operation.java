@@ -1,4 +1,4 @@
-package com.quarkus.bootcamp.nttdata.entity.accountWallet;
+package com.quarkus.bootcamp.nttdata.domain.entity;
 
 import java.time.LocalDate;
 

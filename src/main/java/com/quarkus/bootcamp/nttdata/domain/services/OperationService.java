@@ -1,17 +1,18 @@
-package com.quarkus.bootcamp.nttdata.services;
+package com.quarkus.bootcamp.nttdata.domain.services;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
+import com.quarkus.bootcamp.nttdata.domain.entity.AccountWallet;
+import com.quarkus.bootcamp.nttdata.domain.repository.AccountWalletRepository;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.quarkus.bootcamp.nttdata.entity.accountWallet.AccountWallet;
-import com.quarkus.bootcamp.nttdata.entity.accountWallet.Operation;
-import com.quarkus.bootcamp.nttdata.repository.AccountRepository;
-import com.quarkus.bootcamp.nttdata.repository.OperationRepository;
-import com.quarkus.bootcamp.nttdata.resources.IPromotionApi;
-import com.quarkus.bootcamp.nttdata.resources.OperationRequest;
-import com.quarkus.bootcamp.nttdata.resources.Promotion;
+
+import com.quarkus.bootcamp.nttdata.domain.entity.Operation;
+
+import com.quarkus.bootcamp.nttdata.domain.repository.OperationRepository;
+import com.quarkus.bootcamp.nttdata.infraestructure.resource.IPromotionApi;
+import com.quarkus.bootcamp.nttdata.infraestructure.request.OperationRequest;
+import com.quarkus.bootcamp.nttdata.infraestructure.entity.promotion.Promotion;
 
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -25,7 +26,7 @@ public class OperationService {
 	OperationRepository operationRepository;
 
 	@Inject
-	AccountRepository accountRepository;
+	AccountWalletRepository accountRepository;
 	
 	
 	@RestClient

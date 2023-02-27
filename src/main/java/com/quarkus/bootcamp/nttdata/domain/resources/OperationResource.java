@@ -1,8 +1,9 @@
-package com.quarkus.bootcamp.nttdata.resources;
+package com.quarkus.bootcamp.nttdata.domain.resources;
 
-import com.quarkus.bootcamp.nttdata.entity.accountWallet.AccountWallet;
-import com.quarkus.bootcamp.nttdata.services.OperationService;
 
+import com.quarkus.bootcamp.nttdata.domain.services.OperationService;
+
+import com.quarkus.bootcamp.nttdata.infraestructure.request.OperationRequest;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
