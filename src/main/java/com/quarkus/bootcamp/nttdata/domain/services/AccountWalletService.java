@@ -15,6 +15,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 import org.bson.types.ObjectId;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,58 +28,51 @@ public class AccountWalletService {
 	@Inject
 	AccountWalletRepository accountRepository;
 
-	@Inject
-	IBodyCorporateApi clientBodyCorporateApi;
+	//@RestClient
+	//IBodyCorporateApi clientBodyCorporateApi;
 
-	@Inject
+	@RestClient
 	INaturalPersonApi clientNaturalPerson;
 
-	@Inject
+	@RestClient
 	ICardApi clientCard;
 
 
 	public Uni<AccountWallet> save(AccountWalletRequest request) {
+		Uni<NaturalPersonD> naturalPerson = clientNaturalPerson.getById(Long.parseLong(request.getCustomerId()));
+		return naturalPerson.onItem().transformToUni(pn->{
+			if(Objects.isNull(pn)  ){
+				throw new NotFoundException("Persona natural o Jurídica no encontrada : " );
+			}
+			return  saveAccountWallet(request);
+		});
+
+	}
+
+	public Uni<AccountWallet> save2(AccountWalletRequest request) {
 
 
 		Uni<NaturalPersonD> naturalPerson = clientNaturalPerson.getById(Long.parseLong(request.getCustomerId()));
 
-		Uni<BodyCorporateD> personJuridic = clientBodyCorporateApi.getById(Long.valueOf(request.getCustomerId()));
+		//Uni<BodyCorporateD> personJuridic = clientBodyCorporateApi.getById(Long.valueOf(request.getCustomerId()));
 
 	return 	Uni.combine()
 				.all()
-				.unis(naturalPerson, personJuridic)
+			//	.unis(naturalPerson, personJuridic)
+			.unis(naturalPerson)
 				.combinedWith(lisp -> {
 
 					NaturalPersonD natural =  (NaturalPersonD) lisp.get(0);
-					BodyCorporateD juridico = (BodyCorporateD)lisp.get(1);
+					//BodyCorporateD juridico = (BodyCorporateD)lisp.get(1);
 
-				if(Objects.isNull(natural) || Objects.isNull(juridico) ){
+				//if(Objects.isNull(natural) || Objects.isNull(juridico) ){
+					if(Objects.isNull(natural)  ){
 
 						throw new NotFoundException("Persona natural o Jurídica no encontrada : " );
 					}
 
-					// si persona natural no es vacío entonces persite el id
-					if(Objects.nonNull(natural)){
 
-						AccountWallet accountWallet = new AccountWallet();
-						accountWallet.setPersonaNatural("S");
-						accountWallet.setPersonaJuridica("N");
-						accountWallet.setCustomerId(request.getCustomerId());
-						saveAccountWallet(request);
-
-						accountRepository.persist(accountWallet);
-
-					}
-					if(Objects.nonNull(juridico)){
-						AccountWallet accountWallet = new AccountWallet();
-						accountWallet.setPersonaNatural("N");
-						accountWallet.setPersonaJuridica("S");
-						accountWallet.setCustomerId(request.getCustomerId());
-						saveAccountWallet(request);
-						accountRepository.persist(accountWallet);
-					}
-
-
+					//return 	 saveAccountWallet(request);
 					return new AccountWallet();
 				});
 
@@ -156,7 +150,7 @@ public class AccountWalletService {
 		accountW.setCustomerId(request.getCustomerId()); // id enviado del customer
 		accountW.setCellPhoneNumber(request.getCellPhoneNumber());
 		accountW.setSerial(request.getCard().getSerial()); // numero de tarjeta
-		accountW.setCardId(new ObjectId(String.valueOf(request.getCard().getId())));
+		//accountW.setCardId(new ObjectId(String.valueOf(request.getCard().getId())));
 		accountW.setPassword(contrasenia);
 
 		return  accountRepository.persist(accountW);

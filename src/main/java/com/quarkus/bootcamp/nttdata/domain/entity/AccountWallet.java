@@ -16,7 +16,7 @@ public class AccountWallet {
 	 private ObjectId  id;
 
 
-	 private  ObjectId cardId;
+	// private  ObjectId cardId;
 	/**
 	 * numero de celular
 	 */
